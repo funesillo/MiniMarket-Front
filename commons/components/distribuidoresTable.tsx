@@ -6,11 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { CajasHist } from "../mocks";
-import { CajaHistorial } from "../types/completeList";
+import { Distribuidores } from "../mocks";
 import { TablePagination, TextField } from "@mui/material";
 import { useState } from "react";
 import React from "react";
+import { Distribuidor } from "../types/completeList";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,7 +32,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export const Index = () => {
-  const caja = CajasHist;
+  const Dist = Distribuidores;
   const [page, setPage] = useState(0);
   const rowsPerPage = 10;
   const [search, setSearch] = useState("");
@@ -41,20 +41,19 @@ export const Index = () => {
     setPage(0);
   }, [search]);
 
-  const rows = caja.map((p: CajaHistorial, idx: number) => ({
+  const rows = Dist.map((p: Distribuidor, idx: number) => ({
     id: idx,
-    fecha_apertura: p.fecha_apertura || "",
-    fecha_cierre: p.fecha_cierre || "",
-    saldo_inicial: p.saldo_inicial || 0,
-    saldo_final: p.saldo_final || 0,
-    estado: p.estado || 0,
+    nombre: p.nombre || "",
+    cuit: p.cuit || "",
+    direccion: p.direccion || "",
+    email: p.email || "",
+    telefono: p.telefono || 0,
   }));
 
   const filteredRows = rows.filter(
     (row) =>
-      row.fecha_apertura?.toLowerCase().includes(search.toLowerCase())  ||
-      row.fecha_cierre?.toLowerCase().includes(search.toLowerCase()) ||
-      row.estado?.toLowerCase().includes(search.toLowerCase())
+      row.nombre?.toLowerCase().includes(search.toLowerCase())  ||
+      row.cuit?.toLowerCase().includes(search.toLowerCase()) 
   );
 
   const paginatedRows = filteredRows.slice(
@@ -87,31 +86,31 @@ export const Index = () => {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Estado</StyledTableCell>
-            <StyledTableCell align="right">Fecha Apertura</StyledTableCell>
-            <StyledTableCell align="right">Fecha Cierre</StyledTableCell>
-            <StyledTableCell align="right">Saldo Inicial</StyledTableCell>
-            <StyledTableCell align="right">Saldo Final</StyledTableCell>
+            <StyledTableCell>Nombre</StyledTableCell>
+            <StyledTableCell align="right">Cuit</StyledTableCell>
+            <StyledTableCell align="right">Direccion</StyledTableCell>
+            <StyledTableCell align="right">Email</StyledTableCell>
+            <StyledTableCell align="right">Telefono</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {paginatedRows.map((row) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {row.estado}
+                {row.nombre}
               </StyledTableCell>
 
               <StyledTableCell align="right">
-                {row.fecha_apertura}
+                {row.cuit}
               </StyledTableCell>
               <StyledTableCell align="right">
-                {row.fecha_cierre}
+                {row.direccion}
               </StyledTableCell>
               <StyledTableCell align="right">
-                ${row.saldo_inicial}
+                {row.email}
               </StyledTableCell>
               <StyledTableCell align="right">
-                ${row.saldo_final}
+                {row.telefono}
               </StyledTableCell>
             </StyledTableRow>
           ))}
